@@ -1,6 +1,4 @@
-coverage==4.4.1
 pynubank==2.11.1
-python-coveralls==2.9.1
 ynab_sdk==0.2.4
 inquirer==2.7.0
 playwright==1.10.0
