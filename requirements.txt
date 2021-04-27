@@ -2,4 +2,9 @@ pynubank==2.11.1
 ynab_sdk==0.2.4
 inquirer==2.7.0
 playwright==1.10.0
+
 pytest==6.2.3
+pytest-cov==2.11.1
+coveralls==3.0.1
+tox==3.23.0
+tox-gh-actions==2.5.0
