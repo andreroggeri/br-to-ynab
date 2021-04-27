@@ -45,8 +45,8 @@ def init_config(console=None):
 
         nubank_answers = inquirer.prompt(questions, console)
 
-        nubank_answers['nubank_cert'] = base64.b64encode(open(nubank_answers['nubank_cert'], 'rb').read()).decode(
-            'utf-8')
+        with open(nubank_answers['nubank_cert'], 'rb') as f:
+            nubank_answers['nubank_cert'] = base64.b64encode(f.read()).decode('utf-8')
 
         answers = {**answers, **nubank_answers}
 
@@ -65,4 +65,5 @@ def init_config(console=None):
 
         answers = {**answers, **bradesco_answers}
 
-    json.dump(answers, open('./br_to_ynab.json', 'w'), ensure_ascii=False, indent=2)
+    with open('./br_to_ynab.json', 'w') as f:
+        json.dump(answers, f, ensure_ascii=False, indent=2)
