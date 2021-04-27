@@ -106,7 +106,7 @@ class TestConfigInitialize(unittest.TestCase):
         answers.pop('nubank_cert')
         parsed.pop('nubank_cert')
 
-        self.assertEquals(parsed, answers)
+        self.assertEqual(parsed, answers)
 
     @patch('readchar.readkey')
     def test_should_fail_configure_invalid_cert_path(self, readkey_mock):
@@ -178,7 +178,7 @@ class TestConfigInitialize(unittest.TestCase):
 
         parsed = json.loads(config_file.read_text())
 
-        self.assertEquals(parsed, answers)
+        self.assertEqual(parsed, answers)
 
 
 if __name__ == '__main__':
