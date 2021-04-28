@@ -137,8 +137,8 @@ class TestConfigInitialize(unittest.TestCase):
         answers = {
             'ynab_token': 'abc-123',
             'ynab_budget': 'budget-name',
-            'banks': [],
-            'start_import_date': '202x-04-27',
+            'banks': ['Nubank'],
+            'start_import_date': '202xx-04-27',
         }
         make_answers(
             readkey_mock,
