@@ -1,7 +1,7 @@
 from pynubank import Nubank
 
-from br_to_ynab.data.data_importer import DataImporter
-from br_to_ynab.data.transaction import Transaction
+from br_to_ynab.importers.data_importer import DataImporter
+from br_to_ynab.importers.transaction import Transaction
 from br_to_ynab.util import deep_get
 
 OUTFLOW_EVENT_TYPES = (
