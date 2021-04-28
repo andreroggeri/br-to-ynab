@@ -1,7 +1,7 @@
 import abc
 from typing import Iterable
 
-from br_to_ynab.data.transaction import Transaction
+from br_to_ynab.importers.transaction import Transaction
 
 
 class DataImporter(metaclass=abc.ABCMeta):

@@ -8,10 +8,10 @@ from ynab_sdk import YNAB
 from ynab_sdk.utils.clients.cached_client import CachedClient
 from ynab_sdk.utils.configurations.cached import CachedConfig
 
-from br_to_ynab.data.bradesco.bradesco_checking_account import BradescoCheckingAccount
-from br_to_ynab.data.bradesco.bradesco_credit_card import BradescoCreditCard
-from br_to_ynab.data.nubank.nubank_checking_account import NubankCheckingAccountData
-from br_to_ynab.data.nubank.nubank_credit_card import NubankCreditCardData
+from br_to_ynab.importers.bradesco.bradesco_checking_account import BradescoCheckingAccount
+from br_to_ynab.importers.bradesco.bradesco_credit_card import BradescoCreditCard
+from br_to_ynab.importers.nubank.nubank_checking_account import NubankCheckingAccountData
+from br_to_ynab.importers.nubank.nubank_credit_card import NubankCreditCardData
 from br_to_ynab.util import find_budget_by_name, find_account_by_name
 from br_to_ynab.ynab.ynab_transaction_importer import YNABTransactionImporter
 
@@ -87,4 +87,4 @@ if __name__ == '__main__':
     print(ynab_importer.transactions)
     print(response)
 
-    # print(f'{len(response["data"]["transaction_ids"])} new transactions imported')
+    # print(f'{len(response["importers"]["transaction_ids"])} new transactions imported')
