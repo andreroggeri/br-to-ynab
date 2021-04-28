@@ -1,4 +1,5 @@
 # br-to-ynab
+[![codecov](https://codecov.io/gh/andreroggeri/br-to-ynab/branch/main/graph/badge.svg?token=PK9LFN24FE)](https://codecov.io/gh/andreroggeri/br-to-ynab)
 
 Sincronize seus gastos dos seus bancos para o YNAB automaticamente (Sucessor do [nubank-sync-ynab](https://github.com/andreroggeri/nubank-sync-ynab))
 
