@@ -5,7 +5,7 @@ from datetime import datetime
 
 import inquirer
 
-SUPPORTED_BANKS = ['Nubank', 'Bradesco']
+SUPPORTED_BANKS = ['Nubank', 'Bradesco', 'Alelo']
 
 
 def validate_nubank_cert(_, path: str):
@@ -65,6 +65,18 @@ def init_config(console=None):
         bradesco_answers = inquirer.prompt(questions, console)
 
         answers = {**answers, **bradesco_answers}
+
+    if 'Alelo' in answers['banks']:
+        questions = [
+            inquirer.Text('login', 'Qual seu CPF (somente números) ?'),
+            inquirer.Text('alelo_password', 'Qual a sua senha para logar no app ?'),
+            inquirer.Text('alelo_flex_account', 'Qual o nome da conta cadastrada para o cartão Flex'),
+            inquirer.Text('alelo_refeicao_account', 'Qual o nome da conta cadastrada para o cartão Refeição'),
+            inquirer.Text('alelo_alimentacao_account', 'Qual o nome da conta cadastrada para o cartão Alimentação'),
+        ]
+
+        alelo_answers = inquirer.prompt(questions, console)
+        answers = {**answers, **alelo_answers}
 
     with open('./brbanks2ynab.json', 'w') as f:
         json.dump(answers, f, ensure_ascii=False, indent=2)
