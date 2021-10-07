@@ -4,9 +4,13 @@ from typing import List
 
 from pybradesco import Bradesco
 from pynubank import Nubank
+from python_alelo.alelo import Alelo
 from ynab_sdk.api.models.responses.accounts import Account
 
 from brbanks2ynab.config.config import ImporterConfig
+from brbanks2ynab.importers.alelo.alelo_alimentacao_card import AleloAlimentacaoImporter
+from brbanks2ynab.importers.alelo.alelo_flex_card import AleloFlexImporter
+from brbanks2ynab.importers.alelo.alelo_refeicao_card import AleloRefeicaoImporter
 from brbanks2ynab.importers.bradesco.bradesco_checking_account import BradescoCheckingAccount
 from brbanks2ynab.importers.bradesco.bradesco_credit_card import BradescoCreditCard
 from brbanks2ynab.importers.data_importer import DataImporter
@@ -21,14 +25,12 @@ logger = logging.getLogger('brbanks2ynab')
 def get_importers_for_bank(bank: str,
                            importer_config: ImporterConfig,
                            ynab_accounts: List[Account]) -> List[DataImporter]:
-    importers: List[DataImporter] = []
     if bank == 'Nubank':
-        importers.extend(get_nubank_importers(importer_config, ynab_accounts))
-
+        return get_nubank_importers(importer_config, ynab_accounts)
     elif bank == 'Bradesco':
-        importers.extend(get_bradesco_importers(importer_config, ynab_accounts))
-
-    return importers
+        return get_bradesco_importers(importer_config, ynab_accounts)
+    elif bank == 'Alelo':
+        return get_alelo_importers(importer_config, ynab_accounts)
 
 
 def get_bradesco_importers(importer_config, ynab_accounts):
@@ -69,5 +71,30 @@ def get_nubank_importers(importer_config, ynab_accounts):
         logger.info('[Nubank] Fetching checking account data')
         account = find_account_by_name(ynab_accounts, importer_config.nubank.checking_account)
         importers.append(NubankCheckingAccountData(nu, account.id))
+
+    return importers
+
+
+def get_alelo_importers(importer_config, ynab_accounts):
+    logger.info('[Alelo] Fetching data')
+    importers = []
+
+    alelo = Alelo(importer_config.alelo.login, importer_config.alelo.password)
+    alelo.login()
+
+    if importer_config.alelo.flex_account:
+        logger.info('[Alelo] Fetching flex card data')
+        account = find_account_by_name(ynab_accounts, importer_config.alelo.flex_account)
+        importers.append(AleloFlexImporter(alelo, account.id))
+
+    if importer_config.alelo.alimentacao_account:
+        logger.info('[Alelo] Fetching alimentação card data')
+        account = find_account_by_name(ynab_accounts, importer_config.alelo.alimentacao_account)
+        importers.append(AleloAlimentacaoImporter(alelo, account.id))
+
+    if importer_config.alelo.refeicao_account:
+        logger.info('[Alelo] Fetching refeição card data')
+        account = find_account_by_name(ynab_accounts, importer_config.alelo.refeicao_account)
+        importers.append(AleloRefeicaoImporter(alelo, account.id))
 
     return importers

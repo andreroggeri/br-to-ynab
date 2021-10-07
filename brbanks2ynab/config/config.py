@@ -3,6 +3,25 @@ from typing import List, Optional
 
 
 @dataclass
+class AleloConfig:
+    login: str
+    password: str
+    flex_account: str
+    refeicao_account: str
+    alimentacao_account: str
+
+    @staticmethod
+    def from_dict(data: dict) -> 'AleloConfig':
+        return AleloConfig(
+            data['login'],
+            data['alelo_password'],
+            data['alelo_flex_account'],
+            data['alelo_refeicao_account'],
+            data['alelo_alimentacao_account'],
+        )
+
+
+@dataclass
 class NubankConfig:
     login: str
     token: str
@@ -11,7 +30,7 @@ class NubankConfig:
     checking_account: str
 
     @staticmethod
-    def from_json(data: dict) -> 'NubankConfig':
+    def from_dict(data: dict) -> 'NubankConfig':
         return NubankConfig(
             data['nubank_login'],
             data['nubank_token'],
@@ -50,11 +69,13 @@ class ImporterConfig:
     start_import_date: str
     bradesco: Optional[BradescoConfig]
     nubank: Optional[NubankConfig]
+    alelo: Optional[AleloConfig]
 
     @staticmethod
-    def from_json(json_data: dict) -> 'ImporterConfig':
+    def from_dict(json_data: dict) -> 'ImporterConfig':
         bradesco_config = BradescoConfig.from_json(json_data) if json_data.get('bradesco_branch') else None
-        nubank_config = NubankConfig.from_json(json_data) if json_data.get('nubank_login') else None
+        nubank_config = NubankConfig.from_dict(json_data) if json_data.get('nubank_login') else None
+        alelo_config = AleloConfig.from_dict(json_data) if json_data.get('login') else None
         return ImporterConfig(
             json_data['ynab_token'],
             json_data['ynab_budget'],
@@ -62,4 +83,5 @@ class ImporterConfig:
             json_data['start_import_date'],
             bradesco_config,
             nubank_config,
+            alelo_config
         )

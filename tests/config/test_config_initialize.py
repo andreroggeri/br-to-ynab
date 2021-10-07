@@ -25,6 +25,11 @@ args = [
     'bradesco_web_password',
     'bradesco_credit_card_account',
     'bradesco_checking_account',
+    'login',
+    'alelo_password',
+    'alelo_flex_account',
+    'alelo_refeicao_account',
+    'alelo_alimentacao_account',
 ]
 
 
@@ -55,6 +60,8 @@ def make_answers(readkey_mock, **kwargs):
                     inputs.extend([key.SPACE])
                 if 'Bradesco' in in_data:
                     inputs.extend([key.DOWN, key.SPACE])
+                if 'Alelo' in in_data:
+                    inputs.extend([key.DOWN, key.DOWN, key.SPACE])
                 inputs.append(key.ENTER)
 
     readkey_mock.side_effect = inputs
@@ -165,6 +172,35 @@ class TestConfigInitialize(unittest.TestCase):
             'bradesco_credit_card_account': 'Bradesco Visa',
             'bradesco_checking_account': 'Bradesco Corrente',
         }
+        make_answers(
+            readkey_mock,
+            **answers
+        )
+
+        init_config()
+
+        config_file = self.get_config_file()
+
+        self.assertTrue(config_file.exists())
+
+        parsed = json.loads(config_file.read_text())
+
+        self.assertEqual(parsed, answers)
+
+    @patch('readchar.readkey')
+    def test_should_configure_alelo(self, readkey_mock):
+        answers = {
+            'ynab_token': 'abc-123',
+            'ynab_budget': 'budget-name',
+            'banks': ['Alelo'],
+            'start_import_date': '2021-04-27',
+            'login': '1234',
+            'alelo_password': 'abc123',
+            'alelo_flex_account': 'aaaa',
+            'alelo_refeicao_account': 'bbbc',
+            'alelo_alimentacao_account': 'cccc',
+        }
+
         make_answers(
             readkey_mock,
             **answers

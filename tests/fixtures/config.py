@@ -34,3 +34,18 @@ def config_for_bradesco():
         "bradesco_credit_card_account": "Visa",
         "bradesco_checking_account": "Conta Conta COrrente"
     }
+
+
+@pytest.fixture
+def config_for_alelo():
+    return {
+        'ynab_token': 'abc-123',
+        'ynab_budget': 'budget-name',
+        'banks': ['Alelo'],
+        'start_import_date': '2021-04-27',
+        'login': '1234',
+        'alelo_password': 'abc123',
+        'alelo_flex_account': 'aaaa',
+        'alelo_refeicao_account': 'bbbc',
+        'alelo_alimentacao_account': 'cccc',
+    }

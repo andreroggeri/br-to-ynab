@@ -16,7 +16,7 @@ def sync(config_file_path: Path):
     if not config_file_path.exists():
         raise Exception(f'Arquivo de configuração "{config_file_path}" não encontrado')
 
-    importer_config = ImporterConfig.from_json(json.loads(config_file_path.read_text()))
+    importer_config = ImporterConfig.from_dict(json.loads(config_file_path.read_text()))
 
     ynab = YNAB(importer_config.ynab_token)
 
