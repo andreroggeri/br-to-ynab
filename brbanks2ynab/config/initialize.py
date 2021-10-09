@@ -65,5 +65,9 @@ def init_config(console=None):
 
         answers = {**answers, **bradesco_answers}
 
-    with open('./br_to_ynab.json', 'w') as f:
+    with open('./brbanks2ynab.json', 'w') as f:
         json.dump(answers, f, ensure_ascii=False, indent=2)
+
+
+if __name__ == '__main__':
+    init_config()

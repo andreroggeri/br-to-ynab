@@ -4,8 +4,8 @@ from typing import List
 from ynab_sdk import YNAB
 from ynab_sdk.api.models.requests.transaction import TransactionRequest
 
-from br_to_ynab.importers.data_importer import DataImporter
-from br_to_ynab.importers.transaction import Transaction
+from brbanks2ynab.importers.data_importer import DataImporter
+from brbanks2ynab.importers.transaction import Transaction
 
 
 class YNABTransactionImporter:

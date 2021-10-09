@@ -5,9 +5,9 @@ from unittest.mock import Mock
 
 from ynab_sdk import YNAB
 
-from br_to_ynab.importers.data_importer import DataImporter
-from br_to_ynab.importers.transaction import Transaction
-from br_to_ynab.ynab.ynab_transaction_importer import YNABTransactionImporter
+from brbanks2ynab.importers.data_importer import DataImporter
+from brbanks2ynab.importers.transaction import Transaction
+from brbanks2ynab.ynab.ynab_transaction_importer import YNABTransactionImporter
 
 today = datetime.now()
 

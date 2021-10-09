@@ -4,8 +4,8 @@ from typing import Iterable
 
 from pybradesco import Bradesco, BradescoTransaction
 
-from br_to_ynab.importers.data_importer import DataImporter
-from br_to_ynab.importers.transaction import Transaction
+from brbanks2ynab.importers.data_importer import DataImporter
+from brbanks2ynab.importers.transaction import Transaction
 
 
 class BradescoCreditCard(DataImporter):

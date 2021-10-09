@@ -1,10 +1,10 @@
 import unittest
 from typing import List
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from pynubank import Nubank, MockHttpClient
 
-from br_to_ynab.importers.nubank.nubank_checking_account import NubankCheckingAccountData
+from brbanks2ynab.importers.nubank.nubank_checking_account import NubankCheckingAccountData
 
 
 def find_transaction_idx_by_type(transactions, expected_type):

@@ -3,7 +3,7 @@ from typing import List
 
 from pynubank import Nubank, MockHttpClient
 
-from br_to_ynab.importers.nubank.nubank_credit_card import NubankCreditCardData
+from brbanks2ynab.importers.nubank.nubank_credit_card import NubankCreditCardData
 
 
 class TestNubankCheckingAccount(unittest.TestCase):

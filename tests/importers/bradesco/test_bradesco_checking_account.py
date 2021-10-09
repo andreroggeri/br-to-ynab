@@ -5,7 +5,7 @@ from unittest.mock import Mock
 
 from pybradesco import Bradesco, BradescoTransaction
 
-from br_to_ynab.importers.bradesco.bradesco_checking_account import BradescoCheckingAccount
+from brbanks2ynab.importers.bradesco.bradesco_checking_account import BradescoCheckingAccount
 
 
 def fake_transactions() -> List[BradescoTransaction]:
