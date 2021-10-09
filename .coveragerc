@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = br_to_ynab
+source = brbanks2ynab
 
 [report]
 exclude_lines =

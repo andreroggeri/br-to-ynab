@@ -2,8 +2,8 @@ from typing import Iterable
 
 from pynubank import Nubank
 
-from br_to_ynab.importers.data_importer import DataImporter
-from br_to_ynab.importers.transaction import Transaction
+from brbanks2ynab.importers.data_importer import DataImporter
+from brbanks2ynab.importers.transaction import Transaction
 
 
 class NubankCreditCardData(DataImporter):

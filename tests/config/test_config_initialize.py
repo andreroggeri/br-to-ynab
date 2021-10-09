@@ -7,7 +7,7 @@ from unittest.mock import patch
 from inquirer import events
 from readchar import key
 
-from br_to_ynab.config.initialize import init_config
+from brbanks2ynab.config.initialize import init_config
 
 args = [
     'ynab_token',
@@ -76,7 +76,7 @@ class TestConfigInitialize(unittest.TestCase):
 
     def get_config_file(self):
         pwd = Path()
-        return pwd.joinpath('br_to_ynab.json')
+        return pwd.joinpath('brbanks2ynab.json')
 
     @patch('readchar.readkey')
     def test_should_configure_nubank(self, readkey_mock):
