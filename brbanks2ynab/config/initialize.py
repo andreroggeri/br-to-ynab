@@ -39,7 +39,8 @@ def init_config(console=None):
             inquirer.Password('nubank_token', message='Qual o seu refresh token ? (Obtido pelo pynubank)'),
             inquirer.Text('nubank_cert', 'Qual o caminho para o seu certificado ? (Obtido pelo pynubank)',
                           validate=validate_nubank_cert),
-            inquirer.Text('nubank_card_account', 'Qual o nome da conta cadastrada no YNAB para o cartão de crédito'),
+            inquirer.Text('nubank_credit_card_account',
+                          'Qual o nome da conta cadastrada no YNAB para o cartão de crédito'),
             inquirer.Text('nubank_checking_account', 'Qual o nome da conta cadastrada no YNAB para a Nuconta'),
         ]
 

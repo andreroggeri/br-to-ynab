@@ -17,7 +17,7 @@ args = [
     'nubank_login',
     'nubank_token',
     'nubank_cert',
-    'nubank_card_account',
+    'nubank_credit_card_account',
     'nubank_checking_account',
     'bradesco_branch',
     'bradesco_account_no',
@@ -88,7 +88,7 @@ class TestConfigInitialize(unittest.TestCase):
             'nubank_login': '12345678912',
             'nubank_token': 'some-token',
             'nubank_cert': '/etc/hosts',
-            'nubank_card_account': 'Nubs',
+            'nubank_credit_card_account': 'Nubs',
             'nubank_checking_account': 'Nubs2'
         }
         make_answers(
