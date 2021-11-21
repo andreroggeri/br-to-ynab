@@ -75,7 +75,7 @@ class ImporterConfig:
     def from_dict(json_data: dict) -> 'ImporterConfig':
         bradesco_config = BradescoConfig.from_json(json_data) if json_data.get('bradesco_branch') else None
         nubank_config = NubankConfig.from_dict(json_data) if json_data.get('nubank_login') else None
-        alelo_config = AleloConfig.from_dict(json_data) if json_data.get('login') else None
+        alelo_config = AleloConfig.from_dict(json_data) if json_data.get('alelo_login') else None
         return ImporterConfig(
             json_data['ynab_token'],
             json_data['ynab_budget'],

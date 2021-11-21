@@ -68,7 +68,7 @@ def init_config(console=None):
 
     if 'Alelo' in answers['banks']:
         questions = [
-            inquirer.Text('login', 'Qual seu CPF (somente números) ?'),
+            inquirer.Text('alelo_login', 'Qual seu CPF (somente números) ?'),
             inquirer.Text('alelo_password', 'Qual a sua senha para logar no app ?'),
             inquirer.Text('alelo_flex_account', 'Qual o nome da conta cadastrada para o cartão Flex'),
             inquirer.Text('alelo_refeicao_account', 'Qual o nome da conta cadastrada para o cartão Refeição'),
