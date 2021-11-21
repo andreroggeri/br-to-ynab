@@ -22,6 +22,7 @@ def main():
 
     sync_parser = subparsers.add_parser('sync')
     sync_parser.add_argument('--config', default=_default_config_path())
+    sync_parser.add_argument('--dry', action='store_true', default=False)
     configure_parser = subparsers.add_parser('configure')
 
     result = parser.parse_args()
@@ -33,7 +34,7 @@ def main():
         init_config()
     elif result.cmd == 'sync':
         path = Path(result.config)
-        sync(path)
+        sync(path, result.dry)
 
 
 if __name__ == '__main__':
