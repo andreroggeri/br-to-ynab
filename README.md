@@ -19,10 +19,12 @@ não seja suportado, PRs são bem-vindas.
 | Alelo       | Refeição          | [python-alelo][3] |                                       |
 | Alelo       | Alimentação       | [python-alelo][3] |                                       |
 | Alelo       | Flex              | [python-alelo][3] |                                       |
+| NuInvest    | Investimentos     | [pynuinvest][4]   | Saldo dos investimentos + Dividendos  |
 
 [1]: https://github.com/andreroggeri/pynubank
 [2]: https://github.com/andreroggeri/pybradesco
 [3]: https://github.com/ricardochaves/python-alelo
+[4]: https://github.com/andreroggeri/pynuinvest
 
 ## Como funciona
 
