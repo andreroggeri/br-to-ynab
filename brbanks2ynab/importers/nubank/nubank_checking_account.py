@@ -23,7 +23,7 @@ class NubankCheckingAccountData(DataImporter):
         self.nu = nubank
         self.account_id = account_id
 
-    def get_data(self):
+    async def get_data(self):
         transactions = self.nu.get_account_statements()
 
         return map(self._account_data_to_transaction, transactions)
@@ -38,7 +38,7 @@ class NubankCheckingAccountData(DataImporter):
         }
 
     def _get_transaction_amount(self, account_transaction: dict) -> int:
-        amount = int(account_transaction['amount'] * 1000)
+        amount = int(account_transaction['amount'] * 100)
         if account_transaction['__typename'] in OUTFLOW_EVENT_TYPES:
             amount *= -1
         return amount

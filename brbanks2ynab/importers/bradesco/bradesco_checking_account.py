@@ -14,8 +14,8 @@ class BradescoCheckingAccount(DataImporter):
         self.bradesco = bradesco
         self.account_id = account_id
 
-    def get_data(self) -> Iterable[Transaction]:
-        transactions = self.bradesco.get_checking_account_statements()
+    async def get_data(self) -> Iterable[Transaction]:
+        transactions = await self.bradesco.get_checking_account_statements()
 
         return map(self._to_transaction, transactions)
 
@@ -27,6 +27,6 @@ class BradescoCheckingAccount(DataImporter):
             'transaction_id': transaction_id,
             'account_id': self.account_id,
             'payee': transaction.description,
-            'amount': int(transaction.amount * 1000),
+            'amount': int(transaction.amount * 100),
             'date': transaction_date,
         }

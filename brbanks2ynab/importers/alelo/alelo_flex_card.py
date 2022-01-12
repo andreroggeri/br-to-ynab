@@ -7,7 +7,7 @@ from brbanks2ynab.importers.transaction import Transaction
 
 
 class AleloFlexImporter(BaseAleloImporter):
-    def get_data(self) -> Iterable[Transaction]:
+    async def get_data(self) -> Iterable[Transaction]:
         card = self._get_card_by_type('FLEX')
         response = self.alelo.get_transactions(card, TransactionsTime.LAST_THREE_MONTHS)
 

@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import List
 
-from ynab_sdk import YNAB
+from actualbudget.actualbudget import ActualBudget
+from actualbudget.models.transaction import ABTransaction
 from ynab_sdk.api.models.requests.transaction import TransactionRequest
 
 from brbanks2ynab.importers.data_importer import DataImporter
@@ -9,21 +10,34 @@ from brbanks2ynab.importers.transaction import Transaction
 
 
 class YNABTransactionImporter:
-    def __init__(self, ynab: YNAB, budget_id: str, starting_date: str):
-        self.ynab = ynab
-        self.budget_id = budget_id
+    def __init__(self, actual: ActualBudget, starting_date: str):
+        self.actual = actual
         self.starting_date = datetime.strptime(starting_date, '%Y-%m-%d')
         self.transactions: List[TransactionRequest] = []
 
-    def get_transactions_from(self, transaction_importer: DataImporter):
-        transactions = transaction_importer.get_data()
+    async def get_transactions_from(self, transaction_importer: DataImporter):
+        transactions = await transaction_importer.get_data()
         transactions = filter(self._filter_transaction, transactions)
         transformed = map(self._create_transaction_request, transactions)
         self.transactions.extend(transformed)
         return self
 
-    def save(self):
-        return self.ynab.transactions.create_transactions(self.budget_id, self.transactions)
+    async def save(self):
+        grouped_transactions = {}
+        for t in self.transactions:
+            if not grouped_transactions.get(t.account_id):
+                grouped_transactions[t.account_id] = []
+            grouped_transactions[t.account_id].append(
+                ABTransaction(
+                    date=t.date,
+                    amount=t.amount,
+                    payee_name=t.payee_name,
+                    imported_id=t.import_id
+                )
+            )
+
+        for account_id, transaction in grouped_transactions.items():
+            await self.actual.import_transactions(account_id, transaction)
 
     def _create_transaction_request(self, transaction: Transaction) -> TransactionRequest:
         return TransactionRequest(
