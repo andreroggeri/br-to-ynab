@@ -27,7 +27,7 @@ class BradescoCreditCard(DataImporter):
             'transaction_id': transaction_id,
             'account_id': self.account_id,
             'payee': transaction.description,
-            'amount': int(transaction.amount * 100),
+            'amount': int(transaction.amount * 100) * -1,
             'date': transaction_date,
         }
 
