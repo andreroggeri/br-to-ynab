@@ -1,7 +1,6 @@
 import uuid
 from datetime import datetime
 from typing import Iterable
-
 from pybradesco import Bradesco, BradescoTransaction
 
 from brbanks2ynab.importers.data_importer import DataImporter

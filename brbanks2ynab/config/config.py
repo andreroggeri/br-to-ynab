@@ -13,7 +13,7 @@ class AleloConfig:
     @staticmethod
     def from_dict(data: dict) -> 'AleloConfig':
         return AleloConfig(
-            data['login'],
+            data['alelo_login'],
             data['alelo_password'],
             data['alelo_flex_account'],
             data['alelo_refeicao_account'],

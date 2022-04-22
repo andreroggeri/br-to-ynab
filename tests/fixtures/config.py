@@ -43,7 +43,7 @@ def config_for_alelo():
         'ynab_budget': 'budget-name',
         'banks': ['Alelo'],
         'start_import_date': '2021-04-27',
-        'login': '1234',
+        'alelo_login': '1234',
         'alelo_password': 'abc123',
         'alelo_flex_account': 'aaaa',
         'alelo_refeicao_account': 'bbbc',
