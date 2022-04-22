@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from typing import List
 
@@ -7,6 +8,8 @@ from ynab_sdk.api.models.requests.transaction import TransactionRequest
 
 from brbanks2ynab.importers.data_importer import DataImporter
 from brbanks2ynab.importers.transaction import Transaction
+
+logger = logging.getLogger('brbanks2ynab')
 
 
 class YNABTransactionImporter:
@@ -18,7 +21,8 @@ class YNABTransactionImporter:
     async def get_transactions_from(self, transaction_importer: DataImporter):
         transactions = await transaction_importer.get_data()
         transactions = filter(self._filter_transaction, transactions)
-        transformed = map(self._create_transaction_request, transactions)
+        transformed = list(map(self._create_transaction_request, transactions))
+        logger.info(f'{len(transformed)} transactions imported for {self.__name__}')
         self.transactions.extend(transformed)
         return self
 
