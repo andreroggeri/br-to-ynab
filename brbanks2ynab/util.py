@@ -2,6 +2,7 @@ import logging
 from functools import reduce
 from typing import List
 
+from actualbudget.models.account import ABAccount
 from ynab_sdk.api.models.responses.accounts import Account
 from ynab_sdk.api.models.responses.budget_detail import Budget
 
@@ -19,8 +20,8 @@ def find_budget_by_name(budgets: List[Budget], name) -> Budget:
     return budget
 
 
-def find_account_by_name(accounts: List[Account], name) -> Account:
-    def lookup(account: Account):
+def find_account_by_name(accounts: List[ABAccount], name) -> ABAccount:
+    def lookup(account: ABAccount):
         return account.name == name
 
     account = next(filter(lookup, accounts), None)

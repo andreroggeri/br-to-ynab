@@ -26,6 +26,8 @@ class BaseAleloImporter(DataImporter):
         if card is None:
             raise ImporterException(f'Unexistent card type {card_type}')
 
+        return card
+
     def _to_transaction(self, alelo_transaction: dict) -> Transaction:
         transaction_merged_data = f'{alelo_transaction["date"]}:{alelo_transaction["value"]}:{alelo_transaction["description"]}'
         transaction_id = str(uuid.uuid5(uuid.NAMESPACE_URL, transaction_merged_data))
@@ -41,8 +43,8 @@ class BaseAleloImporter(DataImporter):
         current_year = datetime.now().year
         return datetime.strptime(date, '%d/%m').replace(year=current_year).strftime('%Y-%m-%d')
 
-    def _format_amount(self, amount: float, type:str) -> int:
+    def _format_amount(self, amount: float, type: str) -> int:
         if type == 'DEBIT':
-            return int(amount * 1000) * -1
+            return int(amount * 100) * -1
         else:
-            return int(amount * 1000)
+            return int(amount * 100)

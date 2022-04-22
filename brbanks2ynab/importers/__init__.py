@@ -2,10 +2,10 @@ import base64
 import logging
 from typing import List
 
+from actualbudget.models.account import ABAccount
 from pybradesco import Bradesco
 from pynubank import Nubank
 from python_alelo.alelo import Alelo
-from ynab_sdk.api.models.responses.accounts import Account
 
 from brbanks2ynab.config.config import ImporterConfig
 from brbanks2ynab.importers.alelo.alelo_alimentacao_card import AleloAlimentacaoImporter
@@ -22,26 +22,28 @@ from brbanks2ynab.util import find_account_by_name
 logger = logging.getLogger('brbanks2ynab')
 
 
-def get_importers_for_bank(bank: str,
-                           importer_config: ImporterConfig,
-                           ynab_accounts: List[Account]) -> List[DataImporter]:
+async def get_importers_for_bank(bank: str,
+                                 importer_config: ImporterConfig,
+                                 ynab_accounts: List[ABAccount]) -> List[DataImporter]:
     if bank == 'Nubank':
         return get_nubank_importers(importer_config, ynab_accounts)
     elif bank == 'Bradesco':
-        return get_bradesco_importers(importer_config, ynab_accounts)
+        return await get_bradesco_importers(importer_config, ynab_accounts)
     elif bank == 'Alelo':
         return get_alelo_importers(importer_config, ynab_accounts)
 
 
-def get_bradesco_importers(importer_config, ynab_accounts):
+async def get_bradesco_importers(importer_config, ynab_accounts):
     logger.info('[Bradesco] Fetching data')
     importers = []
     bradesco = Bradesco(preview=True)
-    bradesco.prepare(importer_config.bradesco.branch,
-                     importer_config.bradesco.account_no,
-                     importer_config.bradesco.account_digit)
+    await bradesco.init()
+    await bradesco.prepare(importer_config.bradesco.branch,
+                           importer_config.bradesco.account_no,
+                           importer_config.bradesco.account_digit,
+                           )
     token = input('Digite o token > ')
-    bradesco.authenticate(importer_config.bradesco.web_password, token)
+    await bradesco.authenticate(importer_config.bradesco.web_password, token)
     if importer_config.bradesco.checking_account:
         logger.info('[Bradesco] Fetching checking account data')
         account = find_account_by_name(ynab_accounts, importer_config.bradesco.checking_account)
@@ -54,7 +56,7 @@ def get_bradesco_importers(importer_config, ynab_accounts):
     return importers
 
 
-def get_nubank_importers(importer_config, ynab_accounts):
+def get_nubank_importers(importer_config, ynab_accounts: List[ABAccount]):
     logger.info('[Nubank] Fetching data')
     importers = []
     with open('cert.p12', 'wb') as f:

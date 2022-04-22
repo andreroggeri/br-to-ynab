@@ -12,7 +12,7 @@ class NubankCreditCardData(DataImporter):
         self.nu = nubank
         self.account_id = account_id
 
-    def get_data(self) -> Iterable[Transaction]:
+    async def get_data(self) -> Iterable[Transaction]:
         transactions = self.nu.get_card_statements()
 
         return map(self._card_data_to_transaction, transactions)
@@ -21,7 +21,7 @@ class NubankCreditCardData(DataImporter):
         return {
             'transaction_id': card_transaction['id'],
             'account_id': self.account_id,
-            'amount': card_transaction['amount'] * 10 * -1,
+            'amount': card_transaction['amount'] * -1,
             'payee': card_transaction['description'],
             'date': card_transaction['time'][:10],
         }

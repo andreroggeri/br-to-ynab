@@ -14,9 +14,10 @@ class BradescoCreditCard(DataImporter):
         self.bradesco = bradesco
         self.account_id = account_id
 
-    def get_data(self) -> Iterable[Transaction]:
-        transactions = self.bradesco.get_credit_card_statements()
+    async def get_data(self) -> Iterable[Transaction]:
+        transactions = await self.bradesco.get_credit_card_statements()
         transactions = filter(self._past_transactions, transactions)
+        transactions = filter(self._ignored_transactions, transactions)
         return map(self._to_transaction, transactions)
 
     def _to_transaction(self, transaction: BradescoTransaction) -> Transaction:
@@ -27,9 +28,13 @@ class BradescoCreditCard(DataImporter):
             'transaction_id': transaction_id,
             'account_id': self.account_id,
             'payee': transaction.description,
-            'amount': int(transaction.amount * 1000),
+            'amount': int(transaction.amount * 100) * -1,
             'date': transaction_date,
         }
 
     def _past_transactions(self, transaction: BradescoTransaction) -> bool:
         return transaction.date <= datetime.now()
+
+    def _ignored_transactions(self, transaction: BradescoTransaction) -> bool:
+        ignored_transactions = ['Saldo Anterior', 'bx Autom Fundos', 'Aplicacao em Fundos']
+        return not any(t in transaction.description for t in ignored_transactions)

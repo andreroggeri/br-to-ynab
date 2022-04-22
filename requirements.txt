@@ -1,5 +1,5 @@
 pynubank==2.13.0
-git+git://github.com/andreroggeri/pybradesco.git@2ac4a2b6037714872777091af5cc8ab952b121ff
+git+git://github.com/andreroggeri/pybradesco.git
 git+git://github.com/andreroggeri/python-alelo.git@a03cf8d483ffe40eeac4d00030e0d913e569cb70
 PyJWT==2.2.0
 
