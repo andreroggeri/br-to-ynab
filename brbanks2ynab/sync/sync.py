@@ -32,10 +32,11 @@ def sync(config_file_path: Path, dry: bool):
             ynab_importer.get_transactions_from(importer)
 
     if dry:
-        print(f'{len(ynab_importer.transactions)} would be imported into YNAB')
+        logger.warning('Dry running! No transactions will be imported into YNAB.')
+        logger.info(f'{len(ynab_importer.transactions)} would be imported into YNAB')
     else:
         response = ynab_importer.save()
-        print(f'{len(response["importers"]["transaction_ids"])} transactions imported')
+        logger.info(f'{len(response["importers"]["transaction_ids"])} transactions imported')
 
 
 if __name__ == '__main__':
