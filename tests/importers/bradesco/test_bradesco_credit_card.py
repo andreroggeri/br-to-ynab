@@ -32,7 +32,7 @@ class TestBradescoCreditCard(unittest.TestCase):
         fake_transaction = fake_transactions()[0]
 
         self.assertEqual(transaction['account_id'], '1234')
-        self.assertEqual(transaction['amount'], fake_transaction.amount * 1000)
+        self.assertEqual(transaction['amount'], fake_transaction.amount * 100 * -1)
         self.assertEqual(transaction['date'], fake_transaction.date.strftime('%Y-%m-%d'))
         self.assertEqual(transaction['payee'], fake_transaction.description)
         self.assertIsInstance(transaction['transaction_id'], str)

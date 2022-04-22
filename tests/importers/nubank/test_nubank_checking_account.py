@@ -17,7 +17,7 @@ class TestNubankCheckingAccount(unittest.TestCase):
 
     def setUp(self) -> None:
         self.nu = Nubank(client=MockHttpClient())
-        self.nu.authenticate_with_qr_code('1234', '1234', 'uuid')
+        self.nu.authenticate_with_cert('1234', '1234', 'uuid')
         self.nu_transactions = self.nu.get_account_statements()
 
     def test_should_import_barcode_transactions_using_detail_as_payee(self):
