@@ -14,8 +14,8 @@ class BradescoCreditCard(DataImporter):
         self.bradesco = bradesco
         self.account_id = account_id
 
-    async def get_data(self) -> Iterable[Transaction]:
-        transactions = await self.bradesco.get_credit_card_statements()
+    def get_data(self) -> Iterable[Transaction]:
+        transactions = self.bradesco.get_credit_card_statements()
         transactions = filter(self._past_transactions, transactions)
         return map(self._to_transaction, transactions)
 
