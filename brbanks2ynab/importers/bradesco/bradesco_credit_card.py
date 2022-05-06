@@ -15,7 +15,6 @@ class BradescoCreditCard(DataImporter):
 
     def get_data(self) -> Iterable[Transaction]:
         transactions = self.bradesco.get_credit_card_statements()
-        transactions = filter(self._past_transactions, transactions)
         return map(self._to_transaction, transactions)
 
     def _to_transaction(self, transaction: BradescoTransaction) -> Transaction:
@@ -29,6 +28,3 @@ class BradescoCreditCard(DataImporter):
             'amount': int(transaction.amount * 100) * -1,
             'date': transaction_date,
         }
-
-    def _past_transactions(self, transaction: BradescoTransaction) -> bool:
-        return transaction.date <= datetime.now()
