@@ -7,6 +7,8 @@ from pybradesco.bradesco_transaction import BradescoTransaction
 from brbanks2ynab.importers.data_importer import DataImporter
 from brbanks2ynab.importers.transaction import Transaction
 
+IGNORED_TRANSACTION_DESCRIPTIONS = ['SALDO ANTERIOR']
+
 
 class BradescoCheckingAccount(DataImporter):
 
@@ -16,7 +18,7 @@ class BradescoCheckingAccount(DataImporter):
 
     def get_data(self) -> Iterable[Transaction]:
         transactions = self.bradesco.get_checking_account_statements()
-
+        transactions = filter(self._remove_unecessary_transactions, transactions)
         return map(self._to_transaction, transactions)
 
     def _to_transaction(self, transaction: BradescoTransaction) -> Transaction:
@@ -30,3 +32,6 @@ class BradescoCheckingAccount(DataImporter):
             'amount': int(transaction.amount * 1000),
             'date': transaction_date,
         }
+
+    def _remove_unecessary_transactions(self, transaction: BradescoTransaction):
+        return not any(desc in transaction.description for desc in IGNORED_TRANSACTION_DESCRIPTIONS)

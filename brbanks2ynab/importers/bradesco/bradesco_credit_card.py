@@ -1,10 +1,12 @@
 import uuid
-from datetime import datetime
 from typing import Iterable
+
 from pybradesco import Bradesco, BradescoTransaction
 
 from brbanks2ynab.importers.data_importer import DataImporter
 from brbanks2ynab.importers.transaction import Transaction
+
+IGNORED_TRANSACTION_DESCRIPTIONS = ['bx Autom Fundos']
 
 
 class BradescoCreditCard(DataImporter):
@@ -15,6 +17,7 @@ class BradescoCreditCard(DataImporter):
 
     def get_data(self) -> Iterable[Transaction]:
         transactions = self.bradesco.get_credit_card_statements()
+        transactions = filter(self._remove_unecessary_transactions, transactions)
         return map(self._to_transaction, transactions)
 
     def _to_transaction(self, transaction: BradescoTransaction) -> Transaction:
@@ -28,3 +31,6 @@ class BradescoCreditCard(DataImporter):
             'amount': int(transaction.amount * 100) * -1,
             'date': transaction_date,
         }
+
+    def _remove_unecessary_transactions(self, transaction: BradescoTransaction):
+        return not any(desc in transaction.description for desc in IGNORED_TRANSACTION_DESCRIPTIONS)
