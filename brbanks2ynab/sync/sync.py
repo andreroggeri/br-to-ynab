@@ -36,7 +36,7 @@ def sync(config_file_path: Path, dry: bool):
         logger.info(f'{len(ynab_importer.transactions)} would be imported into YNAB')
     else:
         response = ynab_importer.save()
-        logger.info(f'{len(response["importers"]["transaction_ids"])} transactions imported')
+        logger.info(f'{len(response["data"]["transaction_ids"])} transactions imported')
 
 
 if __name__ == '__main__':
