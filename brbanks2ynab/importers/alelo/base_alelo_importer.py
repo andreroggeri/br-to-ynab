@@ -26,6 +26,8 @@ class BaseAleloImporter(DataImporter):
         if card is None:
             raise ImporterException(f'Unexistent card type {card_type}')
 
+        return card
+
     def _to_transaction(self, alelo_transaction: dict) -> Transaction:
         transaction_merged_data = f'{alelo_transaction["date"]}:{alelo_transaction["value"]}:{alelo_transaction["description"]}'
         transaction_id = str(uuid.uuid5(uuid.NAMESPACE_URL, transaction_merged_data))
