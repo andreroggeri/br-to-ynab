@@ -1,3 +1,4 @@
+import dataclasses
 import json
 import logging
 from pathlib import Path
@@ -34,6 +35,10 @@ def sync(config_file_path: Path, dry: bool):
     if dry:
         logger.warning('Dry running! No transactions will be imported into YNAB.')
         logger.info(f'{len(ynab_importer.transactions)} would be imported into YNAB')
+        with open('import_result.json', 'w') as f:
+            data = [dataclasses.asdict(t) for t in ynab_importer.transactions]
+            json.dump(data, f)
+
     else:
         response = ynab_importer.save()
         logger.info(f'{len(response["data"]["transaction_ids"])} transactions imported')
