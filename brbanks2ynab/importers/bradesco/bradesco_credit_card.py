@@ -6,7 +6,7 @@ from pybradesco import Bradesco, BradescoTransaction
 from brbanks2ynab.importers.data_importer import DataImporter
 from brbanks2ynab.importers.transaction import Transaction
 
-IGNORED_TRANSACTION_DESCRIPTIONS = ['bx Autom Fundos']
+IGNORED_TRANSACTION_DESCRIPTIONS = ['bx Autom Fundos', 'SALDO ANTERIOR']
 
 
 class BradescoCreditCard(DataImporter):
