@@ -62,6 +62,25 @@ class BradescoConfig:
 
 
 @dataclass
+class ItauConfig:
+    branch: str
+    account_no: str
+    password: str
+    checking_account_name: str
+    credit_card_account_name: str
+
+    @staticmethod
+    def from_json(data: dict) -> 'ItauConfig':
+        return ItauConfig(
+            data['itau_branch'],
+            data['itau_account_no'],
+            data['itau_password'],
+            data['itau_checking_account_name'],
+            data['itau_credit_card_account_name'],
+        )
+
+
+@dataclass
 class ImporterConfig:
     ynab_token: str
     ynab_budget: str
@@ -70,12 +89,15 @@ class ImporterConfig:
     bradesco: Optional[BradescoConfig]
     nubank: Optional[NubankConfig]
     alelo: Optional[AleloConfig]
+    itau: Optional[ItauConfig]
 
     @staticmethod
     def from_dict(json_data: dict) -> 'ImporterConfig':
         bradesco_config = BradescoConfig.from_json(json_data) if json_data.get('bradesco_branch') else None
         nubank_config = NubankConfig.from_dict(json_data) if json_data.get('nubank_login') else None
         alelo_config = AleloConfig.from_dict(json_data) if json_data.get('alelo_login') else None
+        itau_config = ItauConfig.from_json(json_data) if json_data.get('itau_branch') else None
+
         return ImporterConfig(
             json_data['ynab_token'],
             json_data['ynab_budget'],
@@ -83,5 +105,6 @@ class ImporterConfig:
             json_data['start_import_date'],
             bradesco_config,
             nubank_config,
-            alelo_config
+            alelo_config,
+            itau_config
         )

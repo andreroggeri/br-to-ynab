@@ -3,6 +3,7 @@ import logging
 from typing import List
 
 from pybradesco import Bradesco
+from pyitau import Itau
 from pynubank import Nubank
 from python_alelo.alelo import Alelo
 from ynab_sdk.api.models.responses.accounts import Account
@@ -14,6 +15,8 @@ from brbanks2ynab.importers.alelo.alelo_refeicao_card import AleloRefeicaoImport
 from brbanks2ynab.importers.bradesco.bradesco_checking_account import BradescoCheckingAccount
 from brbanks2ynab.importers.bradesco.bradesco_credit_card import BradescoCreditCard
 from brbanks2ynab.importers.data_importer import DataImporter
+from brbanks2ynab.importers.itau.itau_checking_account import ItauCheckingAccount
+from brbanks2ynab.importers.itau.itau_credit_card import ItauCreditCard
 from brbanks2ynab.importers.nubank.nubank_checking_account import NubankCheckingAccountData
 from brbanks2ynab.importers.nubank.nubank_credit_card import NubankCreditCardData
 from brbanks2ynab.importers.transaction import Transaction
@@ -31,6 +34,8 @@ def get_importers_for_bank(bank: str,
         return get_bradesco_importers(importer_config, ynab_accounts)
     elif bank == 'Alelo':
         return get_alelo_importers(importer_config, ynab_accounts)
+    elif bank == 'Itaú':
+        return get_itau_importers(importer_config, ynab_accounts)
 
 
 def get_bradesco_importers(importer_config, ynab_accounts):
@@ -96,5 +101,19 @@ def get_alelo_importers(importer_config, ynab_accounts):
         logger.info('[Alelo] Fetching refeição card data')
         account = find_account_by_name(ynab_accounts, importer_config.alelo.refeicao_account)
         importers.append(AleloRefeicaoImporter(alelo, account.id))
+
+    return importers
+
+
+def get_itau_importers(importer_config: ImporterConfig, ynab_accounts):
+    logger.info('[Itaú] Fetching data')
+    importers = []
+
+    itau = Itau()
+    itau.login(importer_config.itau.branch, importer_config.itau.account_no, importer_config.itau.password)
+    credit_card_account_id = find_account_by_name(ynab_accounts, importer_config.itau.credit_card_account_name)
+    checking_account_id = find_account_by_name(ynab_accounts, importer_config.itau.checking_account_name)
+    importers.append(ItauCheckingAccount(itau, checking_account_id.id))
+    importers.append(ItauCreditCard(itau, credit_card_account_id.id))
 
     return importers

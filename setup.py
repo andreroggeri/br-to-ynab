@@ -3,7 +3,6 @@ import os
 from setuptools import setup, find_packages
 
 
-
 def read(fname):
     with open(os.path.join(os.path.dirname(__file__), fname)) as f:
         return f.read()
@@ -32,8 +31,6 @@ setup(
     test_suite='tests',
     classifiers=[
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ]
