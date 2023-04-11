@@ -62,12 +62,10 @@ def get_bradesco_importers(importer_config, ynab_accounts):
 def get_nubank_importers(importer_config, ynab_accounts):
     logger.info('[Nubank] Fetching data')
     importers = []
-    with open('cert.p12', 'wb') as f:
-        cert_content = base64.b64decode(importer_config.nubank.cert)
-        f.write(cert_content)
+    cert_content = base64.b64decode(importer_config.nubank.cert)
     nu = Nubank()
     # TODO: Implementar atualização do refresh token
-    nu.authenticate_with_refresh_token(importer_config.nubank.token, './cert.p12')
+    nu.authenticate_with_refresh_token(importer_config.nubank.token, cert_data=cert_content)
     if importer_config.nubank.credit_card_account:
         logger.info('[Nubank] Fetching card data')
         account = find_account_by_name(ynab_accounts, importer_config.nubank.credit_card_account)

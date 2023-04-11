@@ -13,21 +13,16 @@ from brbanks2ynab.ynab.ynab_transaction_importer import YNABTransactionImporter
 logger = logging.getLogger('brbanks2ynab')
 
 
-def sync(config_file_path: Path, dry: bool):
-    if not config_file_path.exists():
-        raise Exception(f'Arquivo de configuração "{config_file_path}" não encontrado')
+def sync(config: ImporterConfig, dry: bool):
+    ynab = YNAB(config.ynab_token)
 
-    importer_config = ImporterConfig.from_dict(json.loads(config_file_path.read_text()))
-
-    ynab = YNAB(importer_config.ynab_token)
-
-    budget = find_budget_by_name(ynab.budgets.get_budgets().data.budgets, importer_config.ynab_budget)
+    budget = find_budget_by_name(ynab.budgets.get_budgets().data.budgets, config.ynab_budget)
     ynab_accounts = ynab.accounts.get_accounts(budget.id).data.accounts
 
-    ynab_importer = YNABTransactionImporter(ynab, budget.id, importer_config.start_import_date)
+    ynab_importer = YNABTransactionImporter(ynab, budget.id, config.start_import_date)
 
-    for bank in importer_config.banks:
-        importers = get_importers_for_bank(bank, importer_config, ynab_accounts)
+    for bank in config.banks:
+        importers = get_importers_for_bank(bank, config, ynab_accounts)
 
         for importer in importers:
             ynab_importer.get_transactions_from(importer)
