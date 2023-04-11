@@ -5,9 +5,9 @@ import os
 from argparse import ArgumentParser
 from pathlib import Path
 
+from brbanks2ynab.config.config import ImporterConfig
 from brbanks2ynab.config.initialize import init_config
 from brbanks2ynab.sync.sync import sync
-from config.config import ImporterConfig
 
 
 def _default_config_path():
