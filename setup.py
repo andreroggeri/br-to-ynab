@@ -17,7 +17,7 @@ setup(
     license='MIT',
     packages=find_packages(),
     install_requires=[
-        'pynubank', 'ynab_sdk', 'inquirer',
+        'pynubank', 'ynab_sdk', 'inquirer', 'pyitau'
         # 'pybradesco@git+ssh://git@github.com/andreroggeri/pybradesco@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=pybradesco',
         # 'python-alelo@git+ssh://git@github.com/andreroggeri/python-alelo@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=python-alelo',
     ],

@@ -107,11 +107,16 @@ def get_itau_importers(importer_config: ImporterConfig, ynab_accounts):
     logger.info('[Itaú] Fetching data')
     importers = []
 
-    itau = Itau()
-    itau.login(importer_config.itau.branch, importer_config.itau.account_no, importer_config.itau.password)
-    credit_card_account_id = find_account_by_name(ynab_accounts, importer_config.itau.credit_card_account_name)
+    account_no = importer_config.itau.account_no[:-1]
+    account_digit = importer_config.itau.account_no[-1]
+    itau = Itau(importer_config.itau.branch, account_no, account_digit, importer_config.itau.password)
+    logger.info('[Itaú] Authenticating')
+    itau.authenticate()
+    logger.info('[Itaú] Authenticated')
+    # itau.login(importer_config.itau.branch, importer_config.itau.account_no, importer_config.itau.password)
+    # credit_card_account_id = find_account_by_name(ynab_accounts, importer_config.itau.credit_card_account_name)
     checking_account_id = find_account_by_name(ynab_accounts, importer_config.itau.checking_account_name)
     importers.append(ItauCheckingAccount(itau, checking_account_id.id))
-    importers.append(ItauCreditCard(itau, credit_card_account_id.id))
+    # importers.append(ItauCreditCard(itau, credit_card_account_id.id))
 
     return importers
