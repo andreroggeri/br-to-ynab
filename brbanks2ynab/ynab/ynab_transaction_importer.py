@@ -35,6 +35,7 @@ class YNABTransactionImporter:
         )
 
     def _filter_transaction(self, transaction: Transaction) -> bool:
+        now = datetime.now()
         transaction_date = datetime.strptime(transaction['date'], '%Y-%m-%d')
 
-        return transaction_date >= self.starting_date
+        return self.starting_date <= transaction_date <= now

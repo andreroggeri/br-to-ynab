@@ -19,18 +19,17 @@ class ItauCheckingAccount(DataImporter):
         return map(self._to_transaction, transactions)
 
     def _to_transaction(self, itau_transaction: dict) -> Transaction:
-        # Parses the date in this format: 11/01/2023
         date = datetime.strptime(itau_transaction['dataLancamento'], '%d/%m/%Y')
         amount = float(itau_transaction['valorLancamento'].replace('.', '').replace(',', '.'))
         is_inflow = itau_transaction['ePositivo']
         description = itau_transaction['descricaoLancamento']
-        tx_id = hashlib.sha1(f'{date.isoformat()}:{amount}:{is_inflow}:{description}'.encode('utf-8')).hexdigest()
+        tx_id = str(hashlib.sha1(f'{date.isoformat()}:{amount}:{is_inflow}:{description}'.encode('utf-8')).hexdigest())
 
         if not is_inflow:
             amount *= -1
 
         return {
-            'transaction_id': str(tx_id),
+            'transaction_id': tx_id[:35],
             'account_id': self.account_id,
             'payee': description,
             'amount': int(amount * 1000),

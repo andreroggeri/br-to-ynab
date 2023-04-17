@@ -3,7 +3,7 @@ git+https://github.com/andreroggeri/pybradesco.git@80450d483dac1e6cde02bd9520ed9
 git+https://github.com/andreroggeri/python-alelo.git@a03cf8d483ffe40eeac4d00030e0d913e569cb70
 PyJWT==2.2.0
 
-ynab_sdk==0.2.4
+ynab_sdk==0.5.0
 inquirer==2.7.0
 
 pytest==6.2.3

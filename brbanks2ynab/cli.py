@@ -27,6 +27,7 @@ def main():
     sync_parser.add_argument('--config-file')
     sync_parser.add_argument('--config')
     sync_parser.add_argument('--dry', action='store_true', default=False)
+    sync_parser.add_argument('--ntfy-topic', default=None, help='Tópico do ntfy para notificação')
     configure_parser = subparsers.add_parser('configure')
 
     result = parser.parse_args()
@@ -48,8 +49,8 @@ def main():
             config = ImporterConfig.from_dict(json.loads(path.read_text()))
         else:
             config = ImporterConfig.from_dict(json.loads(base64.b64decode(result.config)))
-
-        sync(config, result.dry)
+        ntfy_topic = result.ntfy_topic
+        sync(config, result.dry, ntfy_topic)
 
 
 if __name__ == '__main__':

@@ -1,20 +1,30 @@
 import dataclasses
 import json
 import logging
-from pathlib import Path
+from typing import Optional
 
 from ynab_sdk import YNAB
+from ynab_sdk.api.models.responses.transactions import CreateTransactionResponse
 
 from brbanks2ynab.config.config import ImporterConfig
 from brbanks2ynab.importers import get_importers_for_bank
 from brbanks2ynab.util import find_budget_by_name
 from brbanks2ynab.ynab.ynab_transaction_importer import YNABTransactionImporter
+from brbanks2ynab.utils.notification import send_notification
 
 logger = logging.getLogger('brbanks2ynab')
 logger.setLevel(logging.DEBUG)
 
 
-def sync(config: ImporterConfig, dry: bool):
+def _build_summary(response: CreateTransactionResponse) -> dict:
+    return {
+        'transaction_count': len(response.transaction_ids),
+        'duplicated_count': len(response.duplicate_import_ids),
+        'total_amount': sum(t.amount for t in response.transactions) / 1000,
+    }
+
+
+def sync(config: ImporterConfig, dry: bool, notify: Optional[str] = None):
     ynab = YNAB(config.ynab_token)
 
     budget = find_budget_by_name(ynab.budgets.get_budgets().data.budgets, config.ynab_budget)
@@ -35,10 +45,16 @@ def sync(config: ImporterConfig, dry: bool):
         with open('import_result.json', 'w') as f:
             data = [dataclasses.asdict(t) for t in ynab_importer.transactions]
             json.dump(data, f)
-
     else:
         response = ynab_importer.save()
-        logger.info(f'{len(response["data"]["transaction_ids"])} transactions imported')
+        summary = _build_summary(response)
+
+        logger.info(f"""
+        {summary['transaction_count']} new transactions imported into YNAB
+        {summary['duplicated_count']} transactions were already imported.
+        """)
+        if notify:
+            send_notification(summary, notify)
 
 
 if __name__ == '__main__':
