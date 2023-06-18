@@ -8,6 +8,9 @@ def read(fname):
         return f.read()
 
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name='brbanks2ynab',
     version='0.0.2',
@@ -16,11 +19,7 @@ setup(
     author_email='a.roggeri.c@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=[
-        'pynubank', 'ynab_sdk', 'inquirer', 'pyitau'
-        # 'pybradesco@git+ssh://git@github.com/andreroggeri/pybradesco@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=pybradesco',
-        # 'python-alelo@git+ssh://git@github.com/andreroggeri/python-alelo@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=python-alelo',
-    ],
+    install_requires=required,
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     entry_points={
