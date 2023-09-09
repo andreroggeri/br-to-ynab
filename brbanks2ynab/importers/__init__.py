@@ -72,8 +72,9 @@ def get_nubank_importers(importer_config, ynab_accounts):
         importers.append(NubankCreditCardData(nu, account.id))
     if importer_config.nubank.checking_account:
         logger.info('[Nubank] Fetching checking account data')
-        account = find_account_by_name(ynab_accounts, importer_config.nubank.checking_account)
-        importers.append(NubankCheckingAccountData(nu, account.id))
+        logger.warn('[Nubank] Checking account data is currently disabled')
+        # account = find_account_by_name(ynab_accounts, importer_config.nubank.checking_account)
+        # importers.append(NubankCheckingAccountData(nu, account.id))
 
     return importers
 
