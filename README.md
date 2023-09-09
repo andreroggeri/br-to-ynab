@@ -14,14 +14,8 @@ não seja suportado, PRs são bem-vindas.
 | ----------- | ----------------- | ----------------- | ------------------------------------- |
 | Nubank      | Conta corrente    | [pynubank][1]     |                                       |
 | Nubank      | Cartão de crédito | [pynubank][1]     |                                       |
-| Bradesco    | Conta corrente    | [pybradesco][2]   | Últimos 90 dias                       |
-| Bradesco    | Cartão de Crédito | [pybradesco][2]   | Fatura aberta + Última fatura fechada |
-| Alelo       | Refeição          | [python-alelo][3] |                                       |
-| Alelo       | Alimentação       | [python-alelo][3] |                                       |
-| Alelo       | Flex              | [python-alelo][3] |                                       |
 
 [1]: https://github.com/andreroggeri/pynubank
-[2]: https://github.com/andreroggeri/pybradesco
 [3]: https://github.com/ricardochaves/python-alelo
 
 ## Como funciona

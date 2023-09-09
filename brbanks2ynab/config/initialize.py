@@ -5,7 +5,7 @@ from datetime import datetime
 
 import inquirer
 
-SUPPORTED_BANKS = ['Nubank', 'Bradesco', 'Alelo', 'Itaú']
+SUPPORTED_BANKS = ['Nubank', 'Itaú']
 
 
 def validate_nubank_cert(_, path: str):
@@ -50,33 +50,6 @@ def init_config(console=None):
             nubank_answers['nubank_cert'] = base64.b64encode(f.read()).decode('utf-8')
 
         answers = {**answers, **nubank_answers}
-
-    if 'Bradesco' in answers['banks']:
-        questions = [
-            inquirer.Text('bradesco_branch', 'Qual a sua agência ?'),
-            inquirer.Text('bradesco_account_no', 'Qual o número de sua conta ?'),
-            inquirer.Text('bradesco_account_digit', 'Qual o dígito verificador ?'),
-            inquirer.Password('bradesco_web_password', message='Qual a sua senha do internet banking ?'),
-            inquirer.Text('bradesco_credit_card_account',
-                          'Qual o nome da conta cadastrada no YNAB para o cartão de crédito'),
-            inquirer.Text('bradesco_checking_account', 'Qual o nome da conta cadastrada no YNAB para a conta corrente'),
-        ]
-
-        bradesco_answers = inquirer.prompt(questions, console)
-
-        answers = {**answers, **bradesco_answers}
-
-    if 'Alelo' in answers['banks']:
-        questions = [
-            inquirer.Text('alelo_login', 'Qual seu CPF (somente números) ?'),
-            inquirer.Text('alelo_password', 'Qual a sua senha para logar no app ?'),
-            inquirer.Text('alelo_flex_account', 'Qual o nome da conta cadastrada para o cartão Flex'),
-            inquirer.Text('alelo_refeicao_account', 'Qual o nome da conta cadastrada para o cartão Refeição'),
-            inquirer.Text('alelo_alimentacao_account', 'Qual o nome da conta cadastrada para o cartão Alimentação'),
-        ]
-
-        alelo_answers = inquirer.prompt(questions, console)
-        answers = {**answers, **alelo_answers}
 
     if 'Itaú' in answers['banks']:
         questions = [
