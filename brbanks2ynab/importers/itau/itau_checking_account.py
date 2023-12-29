@@ -41,4 +41,5 @@ class ItauCheckingAccount(DataImporter):
     def _is_useful_transaction(self, transaction: dict):
         return transaction['dataLancamento'] is not None \
             and 'SALDO DO DIA' not in transaction['descricaoLancamento'] \
-            and 'SALDO ANTERIOR' not in transaction['descricaoLancamento']
+            and 'SALDO ANTERIOR' not in transaction['descricaoLancamento'] \
+            and 'SALDO TOTAL DISPONÍVEL DIA' not in transaction['descricaoLancamento']
