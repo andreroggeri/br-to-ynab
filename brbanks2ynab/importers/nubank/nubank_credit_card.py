@@ -12,11 +12,11 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 
 def _is_active_transactions(transaction: dict):
-    return transaction['details']['status'] == 'settled'
+    return transaction['details'].get('status', 'settled') == 'settled'
 
 
 def _is_installment_transaction(transaction: dict):
-    return 'charges' in transaction['details']
+    return 'charges' in transaction['details'] and transaction['details']['charges']['count'] > 1
 
 
 class NubankCreditCardData(DataImporter):
@@ -55,17 +55,20 @@ class NubankCreditCardData(DataImporter):
         parsed_date = datetime.strptime(transaction['time'][:10], '%Y-%m-%d')
         
         def _to_transaction(index) -> Transaction:
-            formatted_value = locale.currency(transaction['amount'] / 100, grouping=True)
+            formatted_value = locale.currency(transaction['amount'] / 100, grouping=True, symbol=False)
             # Adds the index to the date so the transactions spans multiple months
-            date = (parsed_date + relativedelta(months=index)).strftime('%Y-%m-%d')
+            date = (parsed_date + relativedelta(months=index - 1))
+            if index != 1:
+                # If it's not the first transaction, sets the day to the first
+                date = date.replace(day=1)
             return {
-                'transaction_id': f'{transaction["id"]}-{index}',
+                'transaction_id': f'{index}-{transaction["id"]}'[:35],
                 'account_id': self.account_id,
                 'payee': transaction['description'],
                 'amount': installment_amount,
-                'date': date,
-                'memo': f'Parcela {index} de {count}. Valor total: {formatted_value}',
-                'flag': 'Parcelado'
+                'date': date.strftime('%Y-%m-%d'),
+                'memo': f'Parcela {index} de {count}. Valor total: R$ {formatted_value}',
+                'flag': 'red'
             }
         
         return [_to_transaction(i + 1) for i in range(count)]
