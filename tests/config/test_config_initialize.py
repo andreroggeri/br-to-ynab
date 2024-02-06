@@ -19,17 +19,6 @@ args = [
     'nubank_cert',
     'nubank_credit_card_account',
     'nubank_checking_account',
-    'bradesco_branch',
-    'bradesco_account_no',
-    'bradesco_account_digit',
-    'bradesco_web_password',
-    'bradesco_credit_card_account',
-    'bradesco_checking_account',
-    'alelo_login',
-    'alelo_password',
-    'alelo_flex_account',
-    'alelo_refeicao_account',
-    'alelo_alimentacao_account',
 ]
 
 
@@ -58,10 +47,6 @@ def make_answers(readkey_mock, **kwargs):
             elif isinstance(in_data, list):
                 if 'Nubank' in in_data:
                     inputs.extend([key.SPACE])
-                if 'Bradesco' in in_data:
-                    inputs.extend([key.DOWN, key.SPACE])
-                if 'Alelo' in in_data:
-                    inputs.extend([key.DOWN, key.DOWN, key.SPACE])
                 inputs.append(key.ENTER)
 
     readkey_mock.side_effect = inputs
@@ -157,64 +142,6 @@ class TestConfigInitialize(unittest.TestCase):
         config_file = self.get_config_file()
 
         self.assertFalse(config_file.exists())
-
-    @patch('readchar.readkey')
-    def test_should_configure_bradesco(self, readkey_mock):
-        answers = {
-            'ynab_token': 'abc-123',
-            'ynab_budget': 'budget-name',
-            'banks': ['Bradesco'],
-            'start_import_date': '2021-04-27',
-            'bradesco_branch': '1234',
-            'bradesco_account_no': '123123123',
-            'bradesco_account_digit': '2',
-            'bradesco_web_password': '1234',
-            'bradesco_credit_card_account': 'Bradesco Visa',
-            'bradesco_checking_account': 'Bradesco Corrente',
-        }
-        make_answers(
-            readkey_mock,
-            **answers
-        )
-
-        init_config()
-
-        config_file = self.get_config_file()
-
-        self.assertTrue(config_file.exists())
-
-        parsed = json.loads(config_file.read_text())
-
-        self.assertEqual(parsed, answers)
-
-    @patch('readchar.readkey')
-    def test_should_configure_alelo(self, readkey_mock):
-        answers = {
-            'ynab_token': 'abc-123',
-            'ynab_budget': 'budget-name',
-            'banks': ['Alelo'],
-            'start_import_date': '2021-04-27',
-            'alelo_login': '1234',
-            'alelo_password': 'abc123',
-            'alelo_flex_account': 'aaaa',
-            'alelo_refeicao_account': 'bbbc',
-            'alelo_alimentacao_account': 'cccc',
-        }
-
-        make_answers(
-            readkey_mock,
-            **answers
-        )
-
-        init_config()
-
-        config_file = self.get_config_file()
-
-        self.assertTrue(config_file.exists())
-
-        parsed = json.loads(config_file.read_text())
-
-        self.assertEqual(parsed, answers)
 
 
 if __name__ == '__main__':

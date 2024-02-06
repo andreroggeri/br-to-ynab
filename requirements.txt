@@ -1,12 +1,11 @@
-pynubank==2.17.0
-git+https://github.com/andreroggeri/pybradesco.git@80450d483dac1e6cde02bd9520ed90569483ecc1
-git+https://github.com/andreroggeri/python-alelo.git@a03cf8d483ffe40eeac4d00030e0d913e569cb70
-PyJWT==2.2.0
+pynubank==2.24.0
+pyitau @ git+https://github.com/andreroggeri/pyitau.git@528d8249a742f8d3a9bef4749ebd7e054a177351
 
-ynab_sdk==0.2.4
-inquirer==2.7.0
+ynab_sdk==0.5.0
+inquirer==2.8.0
+python-dateutil==2.8.2
 
-pytest==6.2.3
+pytest==6.2.5
 pytest-cov==2.11.1
 coveralls==3.0.1
 tox==3.23.0

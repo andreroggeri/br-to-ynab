@@ -16,36 +16,3 @@ def config_for_nubank():
         "nubank_credit_card_account": "Nubs",
         "nubank_checking_account": "Nubs2"
     }
-
-
-@pytest.fixture
-def config_for_bradesco():
-    return {
-        "ynab_token": "abc-123",
-        "ynab_budget": "budget-name",
-        "banks": [
-            "Bradesco"
-        ],
-        "start_import_date": "2021-04-27",
-        "bradesco_branch": "123",
-        "bradesco_account_no": "456789",
-        "bradesco_account_digit": "9",
-        "bradesco_web_password": "5566",
-        "bradesco_credit_card_account": "Visa",
-        "bradesco_checking_account": "Conta Conta COrrente"
-    }
-
-
-@pytest.fixture
-def config_for_alelo():
-    return {
-        'ynab_token': 'abc-123',
-        'ynab_budget': 'budget-name',
-        'banks': ['Alelo'],
-        'start_import_date': '2021-04-27',
-        'alelo_login': '1234',
-        'alelo_password': 'abc123',
-        'alelo_flex_account': 'aaaa',
-        'alelo_refeicao_account': 'bbbc',
-        'alelo_alimentacao_account': 'cccc',
-    }

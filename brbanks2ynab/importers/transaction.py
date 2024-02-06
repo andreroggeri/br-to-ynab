@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, Optional
 
 
 class Transaction(TypedDict):
@@ -7,3 +7,5 @@ class Transaction(TypedDict):
     payee: str
     amount: int
     date: str
+    memo: Optional[str]
+    flag: Optional[str]

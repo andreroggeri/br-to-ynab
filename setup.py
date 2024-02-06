@@ -3,11 +3,13 @@ import os
 from setuptools import setup, find_packages
 
 
-
 def read(fname):
     with open(os.path.join(os.path.dirname(__file__), fname)) as f:
         return f.read()
 
+
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
 setup(
     name='brbanks2ynab',
@@ -17,11 +19,7 @@ setup(
     author_email='a.roggeri.c@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=[
-        'pynubank', 'ynab_sdk', 'inquirer',
-        # 'pybradesco@git+ssh://git@github.com/andreroggeri/pybradesco@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=pybradesco',
-        # 'python-alelo@git+ssh://git@github.com/andreroggeri/python-alelo@2ac4a2b6037714872777091af5cc8ab952b121ff#egg=python-alelo',
-    ],
+    install_requires=required,
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     entry_points={
@@ -32,8 +30,6 @@ setup(
     test_suite='tests',
     classifiers=[
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ]
